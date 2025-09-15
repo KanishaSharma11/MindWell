@@ -1,0 +1,1253 @@
+<a href="../<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindWell - Mental Health Support</title>
+    <style>
+        :root {
+            /* Palette 1 - Earth Tones */
+            --sage-green: #6B8A7A;
+            --warm-gold: #DAC896;
+            --soft-pink: #E8D5D5;
+            --peach: #E8B894;
+            --dusty-blue: #A8BFC4;
+            --cream: #E8E0D5;
+            
+            /* Palette 2 - Ocean & Sky */
+            --deep-blue: #5B7AA0;
+            --light-blue: #C5D4E6;
+            --warm-beige: #E8DDD4;
+            --mint-green: #C5D4C4;
+            --teal: #7AA09A;
+            
+            /* Neutral */
+            --white: #ffffff;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--sage-green) 0%, var(--teal) 50%, var(--dusty-blue) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-decoration: none  !important;
+            border: none;
+            outline: none;
+        }
+        /* Add this to your CSS - stronger rules to remove underlines */
+.logo,
+.logo:link,
+.logo:visited,
+.logo:hover,
+.logo:active,
+.logo:focus {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    text-underline-offset: unset !important;
+}
+
+/* Also add this universal rule for the nav container */
+.nav-container a,
+.nav-container a:link,
+.nav-container a:visited,
+.nav-container a:hover,
+.nav-container a:active {
+    text-decoration: none !important;
+}
+        .nav-center {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-links a:hover {
+            background: var(--warm-beige);
+            color: var(--text-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Coin Display */
+        .coin-display {
+            background: linear-gradient(45deg, var(--warm-gold), #FFD700);
+            color: var(--text-dark);
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(218, 200, 150, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .coin-display:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(218, 200, 150, 0.6);
+        }
+
+        .coin-icon {
+            font-size: 1.3rem;
+            animation: coinSpin 3s linear infinite;
+        }
+
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            25% { transform: rotateY(90deg); }
+            50% { transform: rotateY(180deg); }
+            75% { transform: rotateY(270deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        /* Login Bonus Notification */
+        .login-bonus {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--white);
+            padding: 2rem 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 2000;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 3px solid var(--warm-gold);
+        }
+
+        .login-bonus.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .login-bonus h3 {
+            color: var(--warm-gold);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-bonus p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-bonus {
+            background: linear-gradient(45deg, var(--sage-green), var(--teal));
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-bonus:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(107, 138, 122, 0.4);
+        }
+
+        /* Streak Counter */
+        .streak-display {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Motivational Quote Section */
+        .quote-section {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px var(--shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--cream);
+        }
+
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sage-green), var(--warm-gold), var(--teal));
+            background-size: 200% 100%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .quote-title {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            color: var(--sage-green);
+            font-weight: 500;
+        }
+
+        .refresh-quote {
+            background: linear-gradient(45deg, var(--sage-green), var(--teal));
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 138, 122, 0.4);
+        }
+
+        .refresh-quote:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(107, 138, 122, 0.6);
+            background: linear-gradient(45deg, var(--teal), var(--deep-blue));
+        }
+
+        /* Cards Section */
+        .cards-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--cream);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(197, 212, 196, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: var(--mint-green);
+        }
+
+        .card:nth-child(1) { border-left: 4px solid var(--sage-green); }
+        .card:nth-child(2) { border-left: 4px solid var(--warm-gold); }
+        .card:nth-child(3) { border-left: 4px solid var(--soft-pink); }
+        .card:nth-child(4) { border-left: 4px solid var(--peach); }
+        .card:nth-child(5) { border-left: 4px solid var(--dusty-blue); }
+        .card:nth-child(6) { border-left: 4px solid var(--teal); }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .card-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--sage-green);
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .card-link:hover {
+            color: var(--teal);
+        }
+
+        .card-link::after {
+            content: '→';
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-link::after {
+            transform: translateX(5px);
+        }
+
+        /* Card hover effects with different colors */
+        .card:nth-child(1):hover .card-link { color: var(--warm-gold); }
+        .card:nth-child(2):hover .card-link { color: var(--warm-gold); }
+        .card:nth-child(3):hover .card-link { color: var(--warm-gold); }
+        .card:nth-child(4):hover .card-link { color: var(--warm-gold); }
+        .card:nth-child(5):hover .card-link { color: var(--warm-gold); }
+        .card:nth-child(6):hover .card-link { color: var(--warm-gold); }
+
+        /* Coin Earning Animation */
+        .coin-earn-animation {
+            position: fixed;
+            top: 100px;
+            right: 50px;
+            font-size: 2rem;
+            color: var(--warm-gold);
+            z-index: 1500;
+            pointer-events: none;
+            animation: coinEarn 2s ease-out forwards;
+        }
+
+        @keyframes coinEarn {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) scale(1.5);
+            }
+        }
+
+        /* Achievement Notification */
+        .achievement {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--sage-green), var(--teal));
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1500;
+            max-width: 300px;
+        }
+
+        .achievement.show {
+            transform: translateX(0);
+        }
+
+        .achievement h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .achievement p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-center {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+
+            .quote-section {
+                padding: 2rem;
+            }
+
+            .quote-title {
+                font-size: 1.5rem;
+            }
+
+            .quote-text {
+                font-size: 1.1rem;
+            }
+
+            .cards-title {
+                font-size: 2rem;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .coin-display {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Additional subtle animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .card:hover {
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* Subtle background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(197, 212, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 191, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(218, 200, 150, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Overlay for login bonus */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">🌱 MindWell</div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#profile">Profile</a></li>
+                    <li><a href="./Community and Group Support/index.html" target="_blank">Communities</a></li>
+                </ul>
+                <div class="streak-display" id="streakDisplay">
+                    🔥 Day 1
+                </div>
+                <div class="coin-display" id="coinDisplay" onclick="showCoinDetails()">
+                    <span class="coin-icon">🪙</span>
+                    <span id="coinCount">25</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Login Bonus Modal -->
+    <div class="login-bonus" id="loginBonus">
+        <h3>
+            <span class="coin-icon">🪙</span>
+            Daily Login Bonus!
+        </h3>
+        <p>Welcome back! You've earned <strong id="bonusAmount">5 coins</strong> for visiting today.</p>
+        <p>Keep your streak going for bigger rewards! 🔥</p>
+        <button class="close-bonus" onclick="closeBonusModal()">Awesome!</button>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Daily Motivational Quote Section -->
+        <section class="quote-section">
+            <h2 class="quote-title">Daily Motivation</h2>
+            <div class="quote-content">
+                <p class="quote-text" id="quote-text">"The greatest revolution of our generation is the discovery that human beings, by changing the inner attitudes of their minds, can change the outer aspects of their lives."</p>
+                <p class="quote-author" id="quote-author">- William James</p>
+            </div>
+            <button class="refresh-quote" onclick="refreshQuote()">New Quote (+1 🪙)</button>
+        </section>
+
+        <!-- Cards Section -->
+        <h2 class="cards-title">Mental Health Resources</h2>
+        <div class="cards-container">
+            <a href="./AI Emotional Chat Companion/frontend/index.html" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(2, 'Visited Emotional Chat')">
+                <span class="card-icon">💬</span>
+                <h3 class="card-title">Emotional Chat Companion</h3>
+                <p class="card-description">A friend in your pocket, for your mind and heart. (+2 🪙)</p>
+                <span class="card-link">Visit Emotional Chat Companion</span>
+            </a>
+
+            <a href="./Mood Tracking With NLP (Diary)/Frontend/index.html" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(2, 'Visited Diary')">
+                <span class="card-icon">📖</span>
+                <h3 class="card-title">My Diary</h3>
+                <p class="card-description">A safe space to capture your thoughts, feelings and reflections every day. (+2 🪙)</p>
+                <span class="card-link">Visit Diary</span>
+            </a>
+
+            <a href="./Community and Group Support/index.html" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(3, 'Joined Communities')">
+                <span class="card-icon">🤝</span>
+                <h3 class="card-title">Support Communities</h3>
+                <p class="card-description">Anonymous support groups where you can share and connect safely. (+3 🪙)</p>
+                <span class="card-link">Join Communities</span>
+            </a>
+
+            <a href="https://www.calm.com" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(1, 'External Resource')">
+                <span class="card-icon">🌙</span>
+                <h3 class="card-title">Calm</h3>
+                <p class="card-description">Sleep stories, meditation sessions, and relaxation techniques for better mental wellness. (+1 🪙)</p>
+                <span class="card-link">Explore Calm</span>
+            </a>
+
+            <a href="https://www.psychologytoday.com" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(1, 'Find Professional Help')">
+                <span class="card-icon">🔍</span>
+                <h3 class="card-title">Psychology Today</h3>
+                <p class="card-description">Find therapists, psychiatrists, and mental health professionals in your area. (+1 🪙)</p>
+                <span class="card-link">Find Help</span>
+            </a>
+
+            <a href="https://www.nami.org" class="card" target="_blank" rel="noopener noreferrer" onclick="earnCoins(1, 'Support Resources')">
+                <span class="card-icon">🏠</span>
+                <h3 class="card-title">NAMI</h3>
+                <p class="card-description">National Alliance on Mental Illness - support groups, education, and advocacy resources. (+1 🪙)</p>
+                <span class="card-link">Visit NAMI</span>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Coin System Variables
+        let userCoins = parseInt(localStorage.getItem('mindwell_coins') || '25');
+        let loginStreak = parseInt(localStorage.getItem('mindwell_streak') || '1');
+        let lastLoginDate = localStorage.getItem('mindwell_last_login');
+        let dailyActivities = JSON.parse(localStorage.getItem('mindwell_daily_activities') || '{}');
+
+        // Array of motivational quotes (local fallback)
+        const quotes = [
+            { text: "The greatest revolution of our generation is the discovery that human beings, by changing the inner attitudes of their minds, can change the outer aspects of their lives.", author: "William James" },
+            { text: "Your mental health is a priority. Your happiness is essential. Your self-care is a necessity.", author: "Anonymous" },
+            { text: "It's okay to not be okay. It's not okay to not ask for help.", author: "Anonymous" },
+            { text: "Healing doesn't mean the damage never existed. It means the damage no longer controls our lives.", author: "Akshay Dubey" },
+            { text: "You are not your illness. You have an individual story to tell. You have a name, a history, a personality. Staying yourself is part of the battle.", author: "Julian Seifter" },
+            { text: "Mental health is not a destination, but a process. It's about how you drive, not where you're going.", author: "Noam Shpancer" },
+            { text: "The strongest people are not those who show strength in front of us, but those who win battles we know nothing about.", author: "Jonathan Harnisch" },
+            { text: "Self-care is not selfish. You cannot serve from an empty vessel.", author: "Eleanor Brownn" }
+        ];
+
+        let currentQuoteIndex = 0;
+
+        // Initialize the page
+        function init() {
+            updateCoinDisplay();
+            updateStreakDisplay();
+            checkDailyLogin();
+            checkDailyQuote();
+            setupQuoteTransitions();
+        }
+
+        // Check for daily login bonus
+        function checkDailyLogin() {
+            const today = new Date().toDateString();
+            
+            if (lastLoginDate !== today) {
+                // Calculate streak
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                
+                if (lastLoginDate === yesterday.toDateString()) {
+                    loginStreak++;
+                } else if (lastLoginDate !== null) {
+                    loginStreak = 1;
+                }
+                
+                // Calculate bonus based on streak
+                let bonus = Math.min(5 + Math.floor(loginStreak / 7) * 2, 15); // Max 15 coins
+                
+                // Show login bonus
+                showLoginBonus(bonus);
+                
+                // Update storage
+                localStorage.setItem('mindwell_last_login', today);
+                localStorage.setItem('mindwell_streak', loginStreak.toString());
+                localStorage.setItem('mindwell_daily_activities', JSON.stringify({})); // Reset daily activities
+                
+                earnCoins(bonus, 'Daily Login Bonus', false);
+            }
+        }
+
+        // Show login bonus modal
+        function showLoginBonus(amount) {
+            document.getElementById('bonusAmount').textContent = `${amount} coins`;
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('loginBonus').classList.add('show');
+        }
+
+        // Close login bonus modal
+        function closeBonusModal() {
+            document.getElementById('overlay').classList.remove('show');
+            document.getElementById('loginBonus').classList.remove('show');
+        }
+
+        // Earn coins function
+        function earnCoins(amount, reason, showAnimation = true) {
+            userCoins += amount;
+            updateCoinDisplay();
+            localStorage.setItem('mindwell_coins', userCoins.toString());
+            
+            if (showAnimation) {
+                showCoinEarnAnimation(amount);
+                showAchievement(`+${amount} coins!`, reason);
+            }
+            
+            // Check for milestones
+            checkMilestones();
+        }
+
+        // Show coin earning animation
+        function showCoinEarnAnimation(amount) {
+            const animation = document.createElement('div');
+            animation.className = 'coin-earn-animation';
+            animation.textContent = `+${amount} 🪙`;
+            document.body.appendChild(animation);
+            
+            setTimeout(() => {
+                document.body.removeChild(animation);
+            }, 2000);
+        }
+
+        // Show achievement notification
+        function showAchievement(title, description) {
+            const achievement = document.createElement('div');
+            achievement.className = 'achievement';
+            achievement.innerHTML = `
+                <h4>${title}</h4>
+                <p>${description}</p>
+            `;
+            document.body.appendChild(achievement);
+            
+            setTimeout(() => {
+                achievement.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                achievement.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(achievement);
+                }, 500);
+            }, 3000);
+        }
+
+        // Update coin display
+        function updateCoinDisplay() {
+            document.getElementById('coinCount').textContent = userCoins;
+        }
+
+        // Update streak display
+        function updateStreakDisplay() {
+            document.getElementById('streakDisplay').textContent = `🔥 Day ${loginStreak}`;
+        }
+
+        // Show coin details
+        function showCoinDetails() {
+            const details = `
+💰 Your MindWell Coins: ${userCoins}
+🔥 Login Streak: ${loginStreak} days
+
+How to earn more coins:
+• Daily login: 5-15 coins (streak bonus)
+• New quote: 1 coin
+• Visit resources: 1-3 coins each
+• Join communities: 3 coins
+
+Coins can be used in our Community platform to create support groups!
+            `;
+            alert(details);
+        }
+
+        // Check milestones
+        function checkMilestones() {
+            const milestones = [
+                { coins: 50, title: "Wellness Explorer", description: "Earned your first 50 coins!" },
+                { coins: 100, title: "Mental Health Champion", description: "100 coins milestone reached!" },
+                { coins: 200, title: "Community Builder", description: "200 coins - ready to create communities!" },
+                { coins: 500, title: "Wellness Master", description: "500 coins! You're a true wellness advocate!" }
+            ];
+            
+            milestones.forEach(milestone => {
+                const achieved = localStorage.getItem(`milestone_${milestone.coins}`);
+                if (userCoins >= milestone.coins && !achieved) {
+                    localStorage.setItem(`milestone_${milestone.coins}`, 'true');
+                    setTimeout(() => {
+                        showAchievement(`🏆 ${milestone.title}`, milestone.description);
+                    }, 1000);
+                }
+            });
+        }
+
+        // Enhanced refresh quote with coin reward
+        async function refreshQuote() {
+            const today = new Date().toDateString();
+            const quotesToday = parseInt(localStorage.getItem(`quotes_${today}`) || '0');
+            
+            if (quotesToday >= 5) {
+                showAchievement("Daily Limit Reached", "Come back tomorrow for more quote rewards!");
+                return;
+            }
+            
+            let quote = null;
+
+            try {
+                const response = await fetch("http://127.0.0.1:5001/get_quote");
+                if (response.ok) {
+                    const data = await response.json();
+                    quote = { text: data.quote, author: data.author || "Anonymous" };
+                }
+            } catch (error) {
+                console.warn("API failed, using local quotes.", error);
+            }
+
+            if (!quote) {
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                quote = quotes[currentQuoteIndex];
+            }
+
+            // Update DOM with fade effect
+            const quoteText = document.getElementById("quote-text");
+            const quoteAuthor = document.getElementById("quote-author");
+
+            quoteText.style.opacity = "0";
+            quoteAuthor.style.opacity = "0";
+
+            setTimeout(() => {
+                quoteText.textContent = `"${quote.text}"`;
+                quoteAuthor.textContent = `- ${quote.author}`;
+                quoteText.style.opacity = "1";
+                quoteAuthor.style.opacity = "1";
+            }, 300);
+
+            // Award coin and track daily usage
+            earnCoins(1, 'New Quote Generated');
+            localStorage.setItem(`quotes_${today}`, (quotesToday + 1).toString());
+        }
+
+        // Auto-refresh quote daily
+        function checkDailyQuote() {
+            const lastQuoteDate = localStorage.getItem("lastQuoteDate");
+            const today = new Date().toDateString();
+
+            if (lastQuoteDate !== today) {
+                refreshQuote();
+                localStorage.setItem("lastQuoteDate", today);
+            }
+        }
+
+        // Setup quote transitions
+        function setupQuoteTransitions() {
+            const quoteText = document.getElementById("quote-text");
+            const quoteAuthor = document.getElementById("quote-author");
+            quoteText.style.transition = "opacity 0.3s ease";
+            quoteAuthor.style.transition = "opacity 0.3s ease";
+        }
+
+        // Track daily activities to prevent spam
+        function trackDailyActivity(activity) {
+            const today = new Date().toDateString();
+            if (!dailyActivities[today]) {
+                dailyActivities[today] = {};
+            }
+            if (!dailyActivities[today][activity]) {
+                dailyActivities[today][activity] = 0;
+            }
+            dailyActivities[today][activity]++;
+            localStorage.setItem('mindwell_daily_activities', JSON.stringify(dailyActivities));
+            
+            return dailyActivities[today][activity];
+        }
+
+        // Enhanced card click with activity tracking
+        function handleCardClick(cardType, coins, description) {
+            const today = new Date().toDateString();
+            const activityCount = trackDailyActivity(cardType);
+            
+            if (activityCount <= 3) { // Allow up to 3 visits per resource per day
+                earnCoins(coins, description);
+            } else {
+                showAchievement("Daily Limit", `You've already visited this resource ${activityCount} times today!`);
+            }
+        }
+
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            
+            // Profile page functionality
+            document.querySelectorAll(".nav-links a").forEach(link => {
+                link.addEventListener("click", (e) => {
+                    if (link.getAttribute("href") === "#profile") {
+                        e.preventDefault();
+                        showProfile();
+                    }
+                });
+            });
+        });
+
+        // Enhanced profile with community stats
+        // Enhanced showProfile function for alert-style display
+function showProfile() {
+    // Load data from localStorage
+    const userCoins = parseInt(localStorage.getItem('mindwell_coins') || '25');
+    const loginStreak = parseInt(localStorage.getItem('mindwell_streak') || '1');
+    const quotesViewed = parseInt(localStorage.getItem('mindwell_quotes_viewed') || '0');
+    const resourcesVisited = parseInt(localStorage.getItem('mindwell_resources_visited') || '0');
+    const communityPosts = parseInt(localStorage.getItem('mindwell_community_posts') || '0');
+    const diaryEntries = parseInt(localStorage.getItem('mindwell_diary_entries') || '0');
+    const joinDate = localStorage.getItem('mindwell_join_date') || 'Today';
+    const totalActivities = quotesViewed + resourcesVisited + communityPosts + diaryEntries;
+    
+    // Calculate wellness score
+    let wellnessScore = 0;
+    wellnessScore += Math.min(loginStreak * 5, 100); // Max 100 from streak
+    wellnessScore += Math.min(userCoins / 5, 100);   // Max 100 from coins
+    wellnessScore += communityPosts * 10;            // 10 points per post
+    wellnessScore += diaryEntries * 5;               // 5 points per entry
+    wellnessScore += quotesViewed * 2;               // 2 points per quote
+    wellnessScore = Math.min(Math.round(wellnessScore), 1000);
+    
+    // Determine user title based on activity
+    let userTitle = "Wellness Explorer";
+    if (wellnessScore >= 800) userTitle = "Wellness Master 👑";
+    else if (wellnessScore >= 600) userTitle = "Mental Health Champion 🏆";
+    else if (wellnessScore >= 400) userTitle = "Wellness Advocate 🌟";
+    else if (wellnessScore >= 200) userTitle = "Mindfulness Seeker 🧘";
+    else if (wellnessScore >= 100) userTitle = "Wellness Beginner 🌱";
+    
+    // Calculate days since joining
+    const joinDateObj = new Date(joinDate);
+    const today = new Date();
+    const daysSinceJoining = Math.floor((today - joinDateObj) / (1000 * 60 * 60 * 24));
+    
+    // Check achievements
+    const achievements = [];
+    if (userCoins >= 50) achievements.push("✅ Wellness Explorer (50+ coins)");
+    else achievements.push("🔒 Wellness Explorer (need " + (50 - userCoins) + " more coins)");
+    
+    if (userCoins >= 100) achievements.push("✅ Mental Health Champion (100+ coins)");
+    else achievements.push("🔒 Mental Health Champion (need " + (100 - userCoins) + " more coins)");
+    
+    if (loginStreak >= 7) achievements.push("✅ Week Warrior (7+ day streak)");
+    else achievements.push("🔒 Week Warrior (need " + (7 - loginStreak) + " more days)");
+    
+    if (loginStreak >= 30) achievements.push("✅ Monthly Master (30+ day streak)");
+    else achievements.push("🔒 Monthly Master (need " + (30 - loginStreak) + " more days)");
+    
+    if (communityPosts >= 5) achievements.push("✅ Community Helper (5+ posts)");
+    else achievements.push("🔒 Community Helper (need " + (5 - communityPosts) + " more posts)");
+    
+    if (quotesViewed >= 20) achievements.push("✅ Inspiration Seeker (20+ quotes)");
+    else achievements.push("🔒 Inspiration Seeker (need " + (20 - quotesViewed) + " more quotes)");
+    
+    if (diaryEntries >= 10) achievements.push("✅ Reflective Writer (10+ diary entries)");
+    else achievements.push("🔒 Reflective Writer (need " + (10 - diaryEntries) + " more entries)");
+    
+    if (userCoins >= 500) achievements.push("✅ Coin Master (500+ coins)");
+    else achievements.push("🔒 Coin Master (need " + (500 - userCoins) + " more coins)");
+    
+    // Create wellness level
+    let wellnessLevel = Math.floor(wellnessScore / 100) + 1;
+    let nextLevelProgress = wellnessScore % 100;
+    
+    // Build the profile alert message
+    const profile = `🌱 MindWell Profile 🌱
+
+👤 ${userTitle}
+🆔 Wellness Level: ${wellnessLevel} (${nextLevelProgress}/100 to next level)
+📈 Wellness Score: ${wellnessScore}/1000
+
+💰 COINS & STREAK
+• Total Coins: ${userCoins} 🪙
+• Current Streak: ${loginStreak} days 🔥
+• Member Since: ${joinDate} (${daysSinceJoining} days ago)
+
+📊 YOUR WELLNESS JOURNEY
+• Daily Logins: ${loginStreak} consecutive days
+• Quotes Viewed: ${quotesViewed} inspiring messages
+• Resources Visited: ${resourcesVisited} helpful links
+• Community Posts: ${communityPosts} supportive messages  
+• Diary Entries: ${diaryEntries} personal reflections
+• Total Activities: ${totalActivities} wellness actions
+
+🏆 ACHIEVEMENTS
+${achievements.join('\n')}
+
+💡 WELLNESS INSIGHTS
+${getWellnessInsight(wellnessScore, loginStreak, totalActivities)}
+
+🎯 NEXT GOALS
+${getNextGoals(userCoins, loginStreak, quotesViewed, communityPosts, diaryEntries)}
+
+Keep nurturing your mental wellness! Every small step counts. 💚`;
+    
+    alert(profile);
+}
+
+// Function to provide wellness insights
+function getWellnessInsight(score, streak, activities) {
+    if (score >= 800) return "• You're a true wellness champion! Your dedication is inspiring.";
+    else if (score >= 600) return "• Excellent progress! You're building strong mental health habits.";
+    else if (score >= 400) return "• Great work! You're developing a consistent wellness routine.";
+    else if (score >= 200) return "• Nice start! Keep building those healthy mental habits.";
+    else if (activities > 10) return "• You're actively engaging with wellness resources. Keep it up!";
+    else if (streak >= 5) return "• Your consistency is paying off! Streaks build lasting habits.";
+    else return "• You're on a wonderful journey of self-care and growth!";
+}
+
+// Function to suggest next goals
+function getNextGoals(coins, streak, quotes, posts, entries) {
+    const goals = [];
+    
+    if (coins < 50) goals.push("• Earn " + (50 - coins) + " more coins for Wellness Explorer badge");
+    else if (coins < 100) goals.push("• Earn " + (100 - coins) + " more coins for Mental Health Champion badge");
+    else if (coins < 500) goals.push("• Save up for Coin Master status (" + (500 - coins) + " coins to go)");
+    
+    if (streak < 7) goals.push("• Maintain your streak for " + (7 - streak) + " more days for Week Warrior badge");
+    else if (streak < 30) goals.push("• Keep your streak going for Monthly Master (" + (30 - streak) + " days to go)");
+    
+    if (quotes < 20) goals.push("• Read " + (20 - quotes) + " more quotes to become an Inspiration Seeker");
+    if (posts < 5) goals.push("• Share " + (5 - posts) + " more community posts to become a Community Helper");
+    if (entries < 10) goals.push("• Write " + (10 - entries) + " more diary entries for Reflective Writer badge");
+    
+    // If all basic goals achieved, suggest advanced ones
+    if (goals.length === 0) {
+        goals.push("• Maintain your excellent wellness routine!");
+        goals.push("• Consider mentoring others in the community");
+        goals.push("• Explore new wellness resources and techniques");
+    }
+    
+    return goals.slice(0, 3).join('\n'); // Show max 3 goals
+}
+
+// Enhanced function to update stats (call this when users perform actions)
+function updateProfileStats(action, amount = 1) {
+    let currentValue, newValue;
+    
+    switch(action) {
+        case 'quote_viewed':
+            currentValue = parseInt(localStorage.getItem('mindwell_quotes_viewed') || '0');
+            newValue = currentValue + amount;
+            localStorage.setItem('mindwell_quotes_viewed', newValue.toString());
+            break;
+            
+        case 'resource_visited':
+            currentValue = parseInt(localStorage.getItem('mindwell_resources_visited') || '0');
+            newValue = currentValue + amount;
+            localStorage.setItem('mindwell_resources_visited', newValue.toString());
+            break;
+            
+        case 'community_post':
+            currentValue = parseInt(localStorage.getItem('mindwell_community_posts') || '0');
+            newValue = currentValue + amount;
+            localStorage.setItem('mindwell_community_posts', newValue.toString());
+            break;
+            
+        case 'diary_entry':
+            currentValue = parseInt(localStorage.getItem('mindwell_diary_entries') || '0');
+            newValue = currentValue + amount;
+            localStorage.setItem('mindwell_diary_entries', newValue.toString());
+            break;
+    }
+}
+
+// Enhanced earnCoins function that also updates profile stats
+function earnCoinsWithStats(amount, reason, activity = null) {
+    // Existing coin earning logic
+    const currentCoins = parseInt(localStorage.getItem('mindwell_coins') || '25');
+    const newCoins = currentCoins + amount;
+    localStorage.setItem('mindwell_coins', newCoins.toString());
+    
+    // Update coin display if element exists
+    const coinDisplay = document.getElementById('coinCount');
+    if (coinDisplay) {
+        coinDisplay.textContent = newCoins;
+    }
+    
+    // Update related profile stats
+    if (activity) {
+        updateProfileStats(activity);
+    }
+    
+    // Show coin animation and achievement if functions exist
+    if (typeof showCoinEarnAnimation === 'function') {
+        showCoinEarnAnimation(amount);
+    }
+    if (typeof showAchievement === 'function') {
+        showAchievement(`+${amount} coins!`, reason);
+    }
+}
+
+// Usage examples for integration:
+// Call these when users perform actions in your app
+
+// When user views a new quote:
+// earnCoinsWithStats(1, 'New Quote Generated', 'quote_viewed');
+
+// When user visits a resource:
+// earnCoinsWithStats(2, 'Visited Resource', 'resource_visited');
+
+// When user posts in community:
+// earnCoinsWithStats(3, 'Community Post', 'community_post');
+
+// When user writes diary entry:
+// earnCoinsWithStats(2, 'Diary Entry', 'diary_entry');
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // 'Q' key for new quote
+            if (event.key.toLowerCase() === 'q' && !event.ctrlKey && !event.altKey) {
+                refreshQuote();
+            }
+            
+            // Escape key to close modals
+            if (event.key === 'Escape') {
+                closeBonusModal();
+            }
+        });
+
+        // Add welcome message for first-time users
+        function checkFirstTimeUser() {
+            const isFirstTime = !localStorage.getItem('mindwell_visited');
+            if (isFirstTime) {
+                localStorage.setItem('mindwell_visited', 'true');
+                localStorage.setItem('mindwell_join_date', new Date().toDateString());
+                setTimeout(() => {
+                    showAchievement("Welcome to MindWell! 🌱", "You've received 25 starter coins. Begin your wellness journey!");
+                }, 2000);
+            }
+        }
+
+        // Sync coins with community platform
+        function syncCoins() {
+            // This function would sync coins with the community platform
+            // In a real application, this would involve API calls
+            const communityCoins = localStorage.getItem('community_coins');
+            if (communityCoins && parseInt(communityCoins) > userCoins) {
+                userCoins = parseInt(communityCoins);
+                updateCoinDisplay();
+                localStorage.setItem('mindwell_coins', userCoins.toString());
+            } else {
+                localStorage.setItem('community_coins', userCoins.toString());
+            }
+        }
+
+        // Background activity simulation
+        function simulateWellnessActivities() {
+            setInterval(() => {
+                // Random wellness tips
+                const tips = [
+                    "💡 Tip: Take 3 deep breaths to center yourself",
+                    "💡 Tip: Remember to stay hydrated throughout the day",
+                    "💡 Tip: A 5-minute walk can boost your mood",
+                    "💡 Tip: Practice gratitude - think of one good thing today"
+                ];
+                
+                if (Math.random() < 0.1) { // 10% chance every interval
+                    const randomTip = tips[Math.floor(Math.random() * tips.length)];
+                    showAchievement("Wellness Tip", randomTip.replace("💡 Tip: ", ""));
+                }
+            }, 60000); // Every minute
+        }
+
+        // Start background activities
+        setTimeout(() => {
+            checkFirstTimeUser();
+            syncCoins();
+            simulateWellnessActivities();
+        }, 1000);
+
+        // Handle page visibility for streak management
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                // Page became visible again
+                syncCoins();
+                checkDailyLogin();
+            }
+        });
+
+        // Save state before page unload
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('mindwell_coins', userCoins.toString());
+            localStorage.setItem('mindwell_streak', loginStreak.toString());
+        });
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const overlay = document.getElementById('overlay');
+            if (event.target === overlay) {
+                closeBonusModal();
+            }
+        });
+
+        // Touch support for mobile
+        if ('ontouchstart' in window) {
+            document.querySelector('.coin-display').addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                showCoinDetails();
+            });
+        }
+
+        // Add some fun Easter eggs
+        let coinClickCount = 0;
+        document.getElementById('coinDisplay').addEventListener('click', function() {
+            coinClickCount++;
+            if (coinClickCount === 10) {
+                earnCoins(5, 'Easter Egg: Coin Enthusiast!');
+                showAchievement("🥚 Easter Egg!", "You really love those coins! Here are 5 bonus coins.");
+                coinClickCount = 0;
+            }
+        });
+
+        // Konami code Easter egg
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+        
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            konamiCode = konamiCode.slice(-konamiSequence.length);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                earnCoins(30, 'Konami Code Master!');
+                showAchievement("🎮 Secret Code Activated!", "You found the hidden Konami code! +30 coins!");
+                konamiCode = [];
+            }
+        });
+    </script>
+</body>
+</html>
