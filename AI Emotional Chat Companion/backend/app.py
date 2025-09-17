@@ -13,14 +13,14 @@ CORS(app, resources={r"/chat": {"origins": "http://127.0.0.1:3000"}})
 # ==========================
 # 🔹 Gemini Setup
 # ==========================
-GEMINI_API_KEY = "AIzaSyCpdXXirh8uHzN2JL4YonsDaMg-5jrLAsE"
+GEMINI_API_KEY = "Gemini API"
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-pro")
 
 # ==========================
 # 🔹 Google Search Setup
 # ==========================
-GOOGLE_API_KEY = "AIzaSyB9qEXeTZ1kFEnfAr2G_uL0A4D4RQuEB9c"
+GOOGLE_API_KEY = "Google Search API"
 SEARCH_ENGINE_ID = "5419cf93b9c7d4fa8"
 
 def get_helplines(query="mental health suicide prevention helpline India"):
