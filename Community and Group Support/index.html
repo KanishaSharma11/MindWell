@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommunityHub - Anonymous Support Communities</title>
+    <style>
+        :root {
+            /* Palette 1 - Earth Tones */
+            --sage-green: #6B8A7A;
+            --warm-gold: #DAC896;
+            --soft-pink: #E8D5D5;
+            --peach: #E8B894;
+            --dusty-blue: #A8BFC4;
+            --cream: #E8E0D5;
+            
+            /* Palette 2 - Ocean & Sky */
+            --deep-blue: #5B7AA0;
+            --light-blue: #C5D4E6;
+            --warm-beige: #E8DDD4;
+            --mint-green: #C5D4C4;
+            --teal: #7AA09A;
+            
+            /* Neutral */
+            --white: #ffffff;
+            --text-dark: #2c2c2c;
+            --text-light: #666;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--sage-green) 0%, var(--teal) 50%, var(--dusty-blue) 100%);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            border: none;
+            outline: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .coins {
+            background: linear-gradient(45deg, #ffd700, #ffed4a);
+            color: #333;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: #333;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        .communities-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .create-community {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .community-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .community-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .community-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .member-count {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .community-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .community-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .post {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .anonymous-name {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .post-time {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .post-content {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .post-actions button {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .post-actions button:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.success {
+            background: #28a745;
+        }
+
+        .notification.error {
+            background: #dc3545;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-info {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav class="nav">
+                <div class="logo">CommunityHub</div>
+                <div class="user-info">
+                    <div class="coins" id="coinBalance">💰</div>
+                    <button class="btn btn-secondary" onclick="showLogin()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegister()">Register</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <section class="communities-section">
+                <input type="text" class="search-bar" placeholder="🔍 Search communities..." onkeyup="searchCommunities(this.value)">
+                
+                <h2 style="margin-bottom: 25px; color: #333;">Available Communities</h2>
+                <div id="communitiesList">
+                    <!-- Communities will be populated here -->
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                <div class="create-community">
+                    <h3 style="margin-bottom: 20px; color: #333;">Create New Community</h3>
+                    <p style="color: #666; margin-bottom: 20px;">💰 Cost: 50 Coins</p>
+                    
+                    <div class="form-group">
+                        <label for="communityName">Community Name</label>
+                        <input type="text" id="communityName" placeholder="Enter community name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="communityDesc">Description</label>
+                        <textarea id="communityDesc" rows="3" placeholder="Describe your community..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="communityCategory">Category</label>
+                        <select id="communityCategory" style="width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 10px;">
+                            <option value="support">Mental Health Support</option>
+                            <option value="addiction">Addiction Recovery</option>
+                            <option value="grief">Grief & Loss</option>
+                            <option value="anxiety">Anxiety & Stress</option>
+                            <option value="depression">Depression Support</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="general">General Support</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="createCommunity()" style="width: 100%;">Create Community</button>
+                </div>
+
+                <div class="stats">
+                    <h4 style="margin-bottom: 15px; color: #333;">Platform Stats</h4>
+                    <div class="stat-item">
+                        <span>Total Communities</span>
+                        <span id="totalCommunities">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Active Members</span>
+                        <span id="activeMembers">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Posts Today</span>
+                        <span id="postsToday">0</span>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Community Modal -->
+    <div id="communityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalCommunityName">Community Name</h2>
+                <span class="close" onclick="closeCommunityModal()">&times;</span>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <p><strong>Your Anonymous Identity:</strong> <span id="anonymousName" style="color: #667eea;"></span></p>
+            </div>
+            
+            <div class="form-group">
+                <textarea id="newPost" rows="4" placeholder="Share your thoughts anonymously..." style="resize: vertical;"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="createPost()" style="margin-bottom: 30px;">Post Anonymously</button>
+            
+            <div id="communityPosts">
+                <!-- Posts will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <span class="close" onclick="closeLogin()">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+            <button class="btn btn-primary" onclick="login()" style="width: 100%;">Login</button>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header">
+                <h2>Register</h2>
+                <span class="close" onclick="closeRegister()">&times;</span>
+            </div>
+            <div class="form-group">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="registerUsername">Username</label>
+                <input type="text" id="registerUsername" placeholder="Choose a username">
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" placeholder="Create a password">
+            </div>
+            <button class="btn btn-primary" onclick="register()" style="width: 100%;">Register</button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let communities = [];
+        let currentCommunityId = null;
+        let userCoins = parseInt(localStorage.getItem('mindwell_coins') || '50');
+        let anonymousNames = {};
+
+        // Initialize the platform
+        function init() {
+            // Create some default communities
+            communities = [
+                {
+                    id: 1,
+                    name: "Anxiety Support Circle",
+                    description: "A safe space to share experiences and coping strategies for anxiety.",
+                    category: "anxiety",
+                    members: 156,
+                    posts: [],
+                    createdAt: new Date(Date.now() - 86400000 * 5),
+                    creator: "system"
+                },
+                {
+                    id: 2,
+                    name: "Depression Warriors",
+                    description: "Together we fight the darkness. Share your journey and find strength.",
+                    category: "depression",
+                    members: 203,
+                    posts: [],
+                    createdAt: new Date(Date.now() - 86400000 * 8),
+                    creator: "system"
+                },
+                {
+                    id: 3,
+                    name: "Addiction Recovery Hub",
+                    description: "Supporting each other through recovery, one day at a time.",
+                    category: "addiction",
+                    members: 89,
+                    posts: [],
+                    createdAt: new Date(Date.now() - 86400000 * 12),
+                    creator: "system"
+                }
+            ];
+            
+            displayCommunities();
+            updateStats();
+            
+            // Add some sample posts
+            addSamplePosts();
+        }
+
+        function addSamplePosts() {
+            const samplePosts = [
+                {
+                    communityId: 1,
+                    content: "I've been dealing with social anxiety for years, and I wanted to share something that's been helping me lately. Taking small steps like making eye contact with cashiers or saying 'thank you' out loud has made a difference. It's not much, but it's progress.",
+                    timestamp: new Date(Date.now() - 3600000 * 2),
+                    likes: 12,
+                    replies: 3
+                },
+                {
+                    communityId: 2,
+                    content: "Today was a hard day, but I managed to get out of bed and take a shower. Sometimes the smallest victories feel like climbing mountains. Thank you all for being here.",
+                    timestamp: new Date(Date.now() - 3600000 * 5),
+                    likes: 28,
+                    replies: 7
+                },
+                {
+                    communityId: 3,
+                    content: "90 days clean today. I never thought I'd make it this far. To anyone struggling - you're stronger than you know. Take it one day at a time.",
+                    timestamp: new Date(Date.now() - 3600000 * 8),
+                    likes: 45,
+                    replies: 12
+                }
+            ];
+
+            samplePosts.forEach(post => {
+                const community = communities.find(c => c.id === post.communityId);
+                if (community) {
+                    community.posts.push({
+                        ...post,
+                        id: Math.random().toString(36).substr(2, 9),
+                        anonymousName: generateAnonymousName(post.communityId, Math.random().toString())
+                    });
+                }
+            });
+        }
+
+        function displayCommunities() {
+            const list = document.getElementById('communitiesList');
+            list.innerHTML = '';
+            
+            communities.forEach(community => {
+                const card = createCommunityCard(community);
+                list.appendChild(card);
+            });
+        }
+
+        function createCommunityCard(community) {
+            const card = document.createElement('div');
+            card.className = 'community-card';
+            card.onclick = () => openCommunity(community.id);
+            
+            const categoryEmoji = {
+                'support': '💙',
+                'addiction': '🌟',
+                'grief': '🕯️',
+                'anxiety': '🧘',
+                'depression': '🌈',
+                'relationships': '💕',
+                'general': '🤝'
+            };
+            
+            card.innerHTML = `
+                <div class="community-header">
+                    <div class="community-name">${categoryEmoji[community.category] || '🤝'} ${community.name}</div>
+                    <div class="member-count">${community.members} members</div>
+                </div>
+                <div class="community-description">${community.description}</div>
+                <div class="community-meta">
+                    <span>${community.posts.length} posts</span>
+                    <span>Created ${formatDate(community.createdAt)}</span>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function openCommunity(communityId) {
+            if (!currentUser) {
+                showNotification('Please login to join communities', 'error');
+                return;
+            }
+            
+            currentCommunityId = communityId;
+            const community = communities.find(c => c.id === communityId);
+            
+            document.getElementById('modalCommunityName').textContent = community.name;
+            document.getElementById('anonymousName').textContent = getAnonymousName(communityId);
+            
+            displayPosts(community.posts);
+            document.getElementById('communityModal').style.display = 'block';
+        }
+
+        function closeCommunityModal() {
+            document.getElementById('communityModal').style.display = 'none';
+            currentCommunityId = null;
+        }
+
+        function getAnonymousName(communityId) {
+            const key = `${currentUser.username}_${communityId}`;
+            if (!anonymousNames[key]) {
+                anonymousNames[key] = generateAnonymousName(communityId, currentUser.username);
+            }
+            return anonymousNames[key];
+        }
+
+        function generateAnonymousName(communityId, seed) {
+            const adjectives = ['Brave', 'Kind', 'Strong', 'Wise', 'Gentle', 'Hope', 'Peace', 'Light', 'Calm', 'Bright'];
+            const animals = ['Phoenix', 'Butterfly', 'Eagle', 'Dolphin', 'Lion', 'Owl', 'Fox', 'Wolf', 'Bear', 'Swan'];
+            
+            // Use seed to generate consistent name for same user in same community
+            const hash = seed.split('').reduce((a, b) => {
+                a = ((a << 5) - a) + b.charCodeAt(0);
+                return a & a;
+            }, 0);
+            
+            const adjIndex = Math.abs(hash) % adjectives.length;
+            const animalIndex = Math.abs(hash >> 8) % animals.length;
+            const number = (Math.abs(hash) % 999) + 1;
+            
+            return `${adjectives[adjIndex]}${animals[animalIndex]}${number}`;
+        }
+
+        async function createPost() {
+    if (!currentUser ) {
+        showNotification('Please login to post', 'error');
+        return;
+    }
+    
+    const content = document.getElementById('newPost').value.trim();
+    if (!content) {
+        showNotification('Please enter some content', 'error');
+        return;
+    }
+
+    // Analyze post content with Perspective API
+    const scores = await analyzeTextWithPerspective(content);
+    if (!scores) {
+        showNotification('Error analyzing content. Please try again.', 'error');
+        return;
+    }
+
+    // Check for toxicity or profanity above threshold (e.g., 0.7)
+    const threshold = 0.7;
+    const toxicAttributes = ['TOXICITY', 'SEVERE_TOXICITY', 'PROFANITY', 'IDENTITY_ATTACK', 'INSULT', 'THREAT', 'SEXUALLY_EXPLICIT'];
+    for (const attr of toxicAttributes) {
+        if (scores[attr] && scores[attr].summaryScore.value >= threshold) {
+            showNotification('Your post contains inappropriate content and cannot be posted.', 'error');
+            return;
+        }
+    }
+
+    // Check depression signs
+    if (detectDepressionSigns(content)) {
+        showDepressionHelplineAlert();
+    }
+    
+    const community = communities.find(c => c.id === currentCommunityId);
+    const newPost = {
+        id: Math.random().toString(36).substr(2, 9),
+        content: content,
+        timestamp: new Date(),
+        likes: 0,
+        replies: 0,
+        anonymousName: getAnonymousName(currentCommunityId),
+        communityId: currentCommunityId
+    };
+    
+    community.posts.unshift(newPost);
+    document.getElementById('newPost').value = '';
+    displayPosts(community.posts);
+    updateStats();
+    showNotification('Post created successfully!', 'success');
+}
+
+        function displayPosts(posts) {
+            const container = document.getElementById('communityPosts');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No posts yet. Be the first to share!</p>';
+                return;
+            }
+            
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.className = 'post';
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <span class="anonymous-name">${post.anonymousName}</span>
+                        <span class="post-time">${formatTime(post.timestamp)}</span>
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                    <div class="post-actions">
+                        <button onclick="likePost('${post.id}')">👍 ${post.likes}</button>
+                        <button onclick="replyPost('${post.id}')">💬 ${post.replies}</button>
+                        <button onclick="supportPost('${post.id}')">❤️ Support</button>
+                    </div>
+                `;
+                container.appendChild(postElement);
+            });
+        }
+
+        function likePost(postId) {
+            const community = communities.find(c => c.id === currentCommunityId);
+            const post = community.posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                displayPosts(community.posts);
+                showNotification('Post liked!', 'success');
+            }
+        }
+
+        function replyPost(postId) {
+            showNotification('Reply feature coming soon!', 'success');
+        }
+
+        function supportPost(postId) {
+            const community = communities.find(c => c.id === currentCommunityId);
+            const post = community.posts.find(p => p.id === postId);
+            if (post) {
+                showNotification('Support sent! 💕', 'success');
+            }
+        }
+
+        async function createCommunity() {
+    if (!currentUser ) {
+        showNotification('Please login to create communities', 'error');
+        return;
+    }
+    
+    if (userCoins < 50) {
+        showNotification('You need 50 coins to create a community', 'error');
+        return;
+    }
+    
+    const name = document.getElementById('communityName').value.trim();
+    const description = document.getElementById('communityDesc').value.trim();
+    const category = document.getElementById('communityCategory').value;
+    
+    if (!name || !description) {
+        showNotification('Please fill in all fields', 'error');
+        return;
+    }
+
+    // Analyze description with Perspective API
+    const scores = await analyzeTextWithPerspective(description);
+    if (!scores) {
+        showNotification('Error analyzing content. Please try again.', 'error');
+        return;
+    }
+
+    // Check for toxicity or profanity above threshold (e.g., 0.7)
+    const threshold = 0.7;
+    const toxicAttributes = ['TOXICITY', 'SEVERE_TOXICITY', 'PROFANITY', 'IDENTITY_ATTACK', 'INSULT', 'THREAT', 'SEXUALLY_EXPLICIT'];
+    for (const attr of toxicAttributes) {
+        if (scores[attr] && scores[attr].summaryScore.value >= threshold) {
+            showNotification('Your community description contains inappropriate content and cannot be posted.', 'error');
+            return;
+        }
+    }
+
+    // Check depression signs
+    if (detectDepressionSigns(description)) {
+        showDepressionHelplineAlert();
+    }
+    
+    const newCommunity = {
+        id: communities.length + 1,
+        name: name,
+        description: description,
+        category: category,
+        members: 1,
+        posts: [],
+        createdAt: new Date(),
+        creator: currentUser .username
+    };
+    
+    communities.push(newCommunity);
+    userCoins -= 50;
+    updateCoinBalance();
+    
+    // Clear form
+    document.getElementById('communityName').value = '';
+    document.getElementById('communityDesc').value = '';
+    
+    displayCommunities();
+    updateStats();
+    showNotification('Community created successfully!', 'success');
+}
+
+
+        function searchCommunities(query) {
+            const filtered = communities.filter(community => 
+                community.name.toLowerCase().includes(query.toLowerCase()) ||
+                community.description.toLowerCase().includes(query.toLowerCase()) ||
+                community.category.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            const list = document.getElementById('communitiesList');
+            list.innerHTML = '';
+            
+            filtered.forEach(community => {
+                const card = createCommunityCard(community);
+                list.appendChild(card);
+            });
+        }
+
+        function updateStats() {
+            document.getElementById('totalCommunities').textContent = communities.length;
+            document.getElementById('activeMembers').textContent = communities.reduce((sum, c) => sum + c.members, 0);
+            
+            const today = new Date().toDateString();
+            const postsToday = communities.reduce((sum, c) => 
+                sum + c.posts.filter(p => p.timestamp.toDateString() === today).length, 0
+            );
+            document.getElementById('postsToday').textContent = postsToday;
+        }
+
+        function updateCoinBalance() {
+            localStorage.setItem('mindwell_coins', userCoins.toString());
+            document.getElementById('coinBalance').textContent = `💰 ${userCoins} Coins`;
+        }
+
+        // Authentication functions
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'block';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('registerModal').style.display = 'block';
+        }
+
+        function closeRegister() {
+            document.getElementById('registerModal').style.display = 'none';
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Simple authentication simulation
+            currentUser = { email, username: email.split('@')[0] };
+            closeLogin();
+            updateUIAfterLogin();
+            showNotification('Welcome back!', 'success');
+            
+            // Login bonus for community platform
+            const lastCommunityLogin = localStorage.getItem('last_community_login');
+            const today = new Date().toDateString();
+            if (lastCommunityLogin !== today) {
+                CoinManager.addCoins(3, 'Community Login Bonus');
+                localStorage.setItem('last_community_login', today);
+            }
+        }
+
+        function register() {
+            const email = document.getElementById('registerEmail').value;
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            if (!email || !username || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            currentUser = { email, username };
+            closeRegister();
+            updateUIAfterLogin();
+            showNotification('Welcome to CommunityHub!', 'success');
+            
+            // One-time new user bonus (not daily)
+            const isNewCommunityUser = !localStorage.getItem('community_user_registered');
+            if (isNewCommunityUser) {
+                localStorage.setItem('community_user_registered', 'true');
+                CoinManager.addCoins(10, 'Welcome Bonus - New Community Member');
+            }
+        }
+
+        function replyPost(postId) {
+            showNotification('Reply feature coming soon!', 'success');
+            rewardEngagement('reply');
+        }
+
+        function updateUIAfterLogin() {
+            const nav = document.querySelector('.user-info');
+            nav.innerHTML = `
+                <div class="coins" id="coinBalance">💰 ${userCoins} Coins</div>
+                <span>Welcome, ${currentUser.username}!</span>
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            `;
+        }
+
+        function logout() {
+            currentUser = null;
+            userCoins = parseInt(localStorage.getItem('mindwell_coins') || '50');
+            anonymousNames = {};
+            closeCommunityModal();
+    
+            const nav = document.querySelector('.user-info');
+            nav.innerHTML = `
+                <div class="coins" id="coinBalance">💰 ${userCoins} Coins</div>
+                <button class="btn btn-secondary" onclick="showLogin()">Login</button>
+                <button class="btn btn-primary" onclick="showRegister()">Register</button>
+            `;
+            showNotification('Logged out successfully', 'success');
+        }
+
+        // Utility functions
+        function formatDate(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) return 'Today';
+            if (diffDays === 1) return 'Yesterday';
+            if (diffDays < 7) return `${diffDays} days ago`;
+            if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+            return `${Math.floor(diffDays / 30)} months ago`;
+        }
+
+        function formatTime(date) {
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffMinutes = Math.floor(diffTime / (1000 * 60));
+            const diffHours = Math.floor(diffMinutes / 60);
+            const diffDays = Math.floor(diffHours / 24);
+            
+            if (diffMinutes < 1) return 'Just now';
+            if (diffMinutes < 60) return `${diffMinutes}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // Escape key closes modals
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal');
+                modals.forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+            
+            // Enter key in post textarea creates post
+            if (event.key === 'Enter' && event.ctrlKey && event.target.id === 'newPost') {
+                createPost();
+            }
+        });
+
+        // Auto-save draft posts
+        let draftTimer;
+        document.addEventListener('input', function(event) {
+            if (event.target.id === 'newPost') {
+                clearTimeout(draftTimer);
+                draftTimer = setTimeout(() => {
+                    // In a real app, this would save to localStorage or server
+                    console.log('Draft saved');
+                }, 2000);
+            }
+        });
+
+        // Initialize the platform when page loads
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Add some interactive animations
+        function addHoverEffects() {
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.05)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        }
+
+        // Simulate real-time activity
+        function simulateActivity() {
+            setInterval(() => {
+                if (Math.random() < 0.3) {
+                    // Randomly add members to communities
+                    const randomCommunity = communities[Math.floor(Math.random() * communities.length)];
+                    randomCommunity.members += Math.floor(Math.random() * 3) + 1;
+                    displayCommunities();
+                    updateStats();
+                }
+            }, 30000); // Every 30 seconds
+        }
+
+        // Add coin earning opportunities
+        function earnCoins(amount, reason) {
+            if (currentUser) {
+                userCoins += amount;
+                updateCoinBalance();
+                showNotification(`+${amount} coins! ${reason}`, 'success');
+            }
+        }
+
+        // Reward user engagement
+        function rewardEngagement() {
+            // Daily login bonus
+            const lastLogin = localStorage.getItem('lastLogin');
+            const today = new Date().toDateString();
+            
+            if (lastLogin !== today && currentUser) {
+                earnCoins(5, 'Daily login bonus');
+                localStorage.setItem('lastLogin', today);
+            }
+        }
+
+        // Enhanced community features
+        function joinCommunity(communityId) {
+            const community = communities.find(c => c.id === communityId);
+            if (community && currentUser) {
+                community.members++;
+                earnCoins(2, 'Joined a community');
+                displayCommunities();
+                updateStats();
+                showNotification(`Welcome to ${community.name}!`, 'success');
+            }
+        }
+
+        // Add community guidelines modal
+        function showGuidelines() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Community Guidelines</h2>
+                        <span class="close" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</span>
+                    </div>
+                    <div style="line-height: 1.6;">
+                        <h3>🤝 Be Respectful</h3>
+                        <p>Treat all members with kindness and respect. We're all here to support each other.</p>
+                        
+                        <h3>🔒 Maintain Anonymity</h3>
+                        <p>Don't share personal information or try to identify other members.</p>
+                        
+                        <h3>💙 Offer Support</h3>
+                        <p>Focus on providing encouragement and sharing helpful experiences.</p>
+                        
+                        <h3>🚫 Zero Tolerance</h3>
+                        <p>No harassment, spam, or harmful content. Violations result in immediate removal.</p>
+                        
+                        <h3>🌟 Crisis Support</h3>
+                        <p>If you're in crisis, please contact professional help immediately. This platform is for peer support only.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove()" style="width: 100%; margin-top: 20px;">I Understand</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Initialize additional features
+        setTimeout(() => {
+            addHoverEffects();
+            simulateActivity();
+            if (currentUser) {
+                rewardEngagement();
+            }
+        }, 1000);
+
+        async function analyzeTextWithPerspective(text) {
+    const apiKey = 'AIzaSyB_-cZRzYaxnMOqotkSLAer__KgZYUJdu8'; // Replace with your actual key
+    const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${apiKey}`;
+
+    const body = {
+        comment: { text: text },
+        languages: ['en'],
+        requestedAttributes: {
+            TOXICITY: {},
+            SEVERE_TOXICITY: {},
+            PROFANITY: {},
+            IDENTITY_ATTACK: {},
+            INSULT: {},
+            THREAT: {},
+            SEXUALLY_EXPLICIT: {},
+            FLIRTATION: {},
+            // Custom attribute for depression detection is not available,
+            // so we will do a simple keyword check for depression signs separately.
+        }
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        if (data && data.attributeScores) {
+            return data.attributeScores;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Perspective API error:', error);
+        return null;
+    }
+}
+    function detectDepressionSigns(text) {
+    const depressionKeywords = [
+        'depressed', 'depression', 'hopeless', 'sad', 'suicide', 'worthless',
+        'alone', 'tired', 'empty', 'crying', 'pain', 'darkness', 'helpless'
+    ];
+    const lowerText = text.toLowerCase();
+    return depressionKeywords.some(keyword => lowerText.includes(keyword));
+}
+function showDepressionHelplineAlert() {
+    alert(`We noticed signs of depression in your message. If you need help, here are some mental health helplines in India:
+
+- KIRAN Mental Health Helpline: 1800-599-0019
+- AASRA Foundation Suicide Prevention Helpline: 91-22-2754-6669
+- Snehi Suicide Prevention Helpline: 91-22-2552-1111
+- VISHWAS Mental Health Helpline: 9152987821
+
+Please consider reaching out to professionals or trusted people for support.`);
+}
+
+    </script>
+</body>
+</html>
