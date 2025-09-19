@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diary Emotion Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      /* MindWell Palette - Earth Tones */
+      --sage-green: #6B8A7A;
+      --warm-gold: #DAC896;
+      --soft-pink: #E8D5D5;
+      --peach: #E8B894;
+      --dusty-blue: #A8BFC4;
+      --cream: #E8E0D5;
+      
+      /* MindWell Palette - Ocean & Sky */
+      --deep-blue: #5B7AA0;
+      --light-blue: #C5D4E6;
+      --warm-beige: #E8DDD4;
+      --mint-green: #C5D4C4;
+      --teal: #7AA09A;
+      
+      /* Neutral */
+      --white: #ffffff;
+      --text-dark: #2c2c2c;
+      --text-light: #666;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, 
+        var(--cream) 0%, 
+        var(--warm-beige) 25%, 
+        var(--light-blue) 50%, 
+        var(--mint-green) 75%, 
+        var(--dusty-blue) 100%);
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, var(--soft-pink) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--mint-green) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, var(--warm-gold) 0%, transparent 50%);
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 32px;
+      padding: 40px;
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
+      position: relative;
+      animation: slideUp 0.8s ease-out;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      text-align: center;
+      background: linear-gradient(135deg, var(--sage-green), var(--deep-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 40px;
+      position: relative;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1::after {
+      content: '📖';
+      position: absolute;
+      right: -50px;
+      top: -10px;
+      font-size: 2rem;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+      50% { transform: scale(1.2) rotate(10deg); opacity: 0.8; }
+    }
+
+    .entry-section {
+      background: linear-gradient(135deg, var(--cream), var(--warm-beige));
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 40px;
+      border: 2px solid rgba(107, 138, 122, 0.1);
+      position: relative;
+      overflow: hidden;
+      margin-top: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .entry-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sage-green), var(--teal));
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    #diaryText {
+      width: 100%;
+      min-height: 120px;
+      padding: 20px;
+      border: 2px solid var(--dusty-blue);
+      border-radius: 16px;
+      font-size: 16px;
+      font-family: inherit;
+      resize: vertical;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+      color: var(--text-dark);
+    }
+
+    #diaryText:focus {
+      border-color: var(--sage-green);
+      box-shadow: 
+        0 8px 32px rgba(107, 138, 122, 0.15),
+        0 0 0 4px rgba(107, 138, 122, 0.1);
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px);
+    }
+
+    #diaryText::placeholder {
+      color: var(--text-light);
+      opacity: 0.7;
+      font-style: italic;
+    }
+
+    .save-btn {
+      background: linear-gradient(135deg, 
+        var(--sage-green) 0%, 
+        var(--deep-blue) 50%, 
+        var(--teal) 100%);
+      color: white;
+      border: none;
+      padding: 18px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 auto;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .save-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s;
+    }
+
+    .save-btn:hover::before {
+      left: 100%;
+    }
+
+    .save-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 12px 40px rgba(107, 138, 122, 0.4),
+        0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .save-btn:active {
+      transform: translateY(-1px);
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--sage-green), var(--deep-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .entries-section, .chart-section {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(107, 138, 122, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    #entries {
+      list-style: none;
+      max-height: 400px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--sage-green) rgba(107, 138, 122, 0.1);
+    }
+
+    #entries::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #entries::-webkit-scrollbar-track {
+      background: rgba(107, 138, 122, 0.1);
+      border-radius: 3px;
+    }
+
+    #entries::-webkit-scrollbar-thumb {
+      background: var(--sage-green);
+      border-radius: 3px;
+    }
+
+    #entries li {
+      background: linear-gradient(135deg, var(--cream), var(--warm-beige));
+      margin-bottom: 16px;
+      padding: 20px;
+      border-radius: 16px;
+      border-left: 4px solid var(--sage-green);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.5s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    #entries li:hover {
+      transform: translateX(8px) translateY(-2px);
+      box-shadow: 0 8px 24px rgba(107, 138, 122, 0.15);
+      border-left-color: var(--teal);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .entry-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-dark);
+      word-wrap: break-word;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block;
+      color: var(--sage-green);
+      opacity: 0.6;
+    }
+
+    #emotionChart {
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 400px;
+      margin-top: 20px;
+    }
+
+    .floating-icon {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.1;
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+      color: var(--sage-green);
+    }
+
+    .floating-icon:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-icon:nth-child(2) { top: 20%; right: 15%; animation-delay: 2s; }
+    .floating-icon:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+        margin: 10px;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+      }
+      
+      h1::after {
+        right: -30px;
+        font-size: 1.5rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+
+    .word-count {
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 12px;
+      color: var(--text-light);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+      backdrop-filter: blur(10px);
+      padding: 6px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(107, 138, 122, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .button-group .save-btn {
+      margin: 0;
+    }
+
+    /* Voice button specific styling */
+    #voiceBtn {
+      background: linear-gradient(135deg, var(--peach), var(--warm-gold));
+    }
+
+    #voiceBtn:hover {
+      box-shadow: 
+        0 12px 40px rgba(232, 184, 148, 0.4),
+        0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Enhanced loading states */
+    .loading {
+      position: relative;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Custom emotion colors for entries */
+    .emotion-joy { border-left-color: var(--warm-gold); }
+    .emotion-sadness { border-left-color: var(--dusty-blue); }
+    .emotion-anger { border-left-color: var(--peach); }
+    .emotion-fear { border-left-color: var(--soft-pink); }
+    .emotion-surprise { border-left-color: var(--mint-green); }
+    .emotion-disgust { border-left-color: var(--teal); }
+    .emotion-neutral { border-left-color: var(--sage-green); }
+  </style>
+  </style>
+</head>
+<body>
+  <div class="floating-icon">💫</div>
+  <div class="floating-icon">✨</div>
+  <div class="floating-icon">💭</div>
+
+  <div class="container">
+    <h1>My Diary</h1>
+    
+    <div class="entry-section">
+      <div class="input-group">
+        <textarea id="diaryText" rows="4" cols="50" placeholder="Share your thoughts, feelings, and experiences today... ✍️"></textarea>
+        <div class="word-count" id="wordCount">0 words</div>
+      </div>
+      <div class="button-group">
+        <button class="save-btn" onclick="saveEntry()">
+        <i class="fas fa-heart"></i>
+        Save Entry
+        </button>
+        <button id="voiceBtn" class="save-btn">🎤 Speak</button>
+      </div>
+    </div>
+
+    <div class="entries-section">
+      <h2>
+        <i class="fas fa-book-open"></i>
+        Past Entries
+      </h2>
+      <ul id="entries">
+        <div class="empty-state">
+          <i class="fas fa-feather-alt"></i>
+          <p>No entries yet. Start writing your first diary entry above!</p>
+        </div>
+      </ul>
+    </div>
+
+    <div class="chart-section">
+      <h2>
+        <i class="fas fa-chart-line"></i>
+        Emotion Trends
+      </h2>
+      <div class="chart-container">
+        <canvas id="emotionChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+<script>
+    // script.js (replace your current file with this)
+
+let chartInstance = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  // DOM elements
+  const diaryInput = document.getElementById("diaryText");
+  const wordCountEl = document.getElementById("wordCount");
+  const voiceBtn = document.getElementById("voiceBtn");
+  const entriesContainer = document.getElementById("entries");
+  const emotionCanvas = document.getElementById("emotionChart");
+
+  // Utility: update word count
+  function updateWordCount() {
+    const text = diaryInput.value;
+    const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+    wordCountEl.textContent = wordCount + " words";
+  }
+
+  // Hook word count + focus effects
+  diaryInput.addEventListener("input", updateWordCount);
+  diaryInput.addEventListener("focus", () => diaryInput.style.transform = "scale(1.02)");
+  diaryInput.addEventListener("blur", () => diaryInput.style.transform = "scale(1)");
+
+  // Save Entry (select Save button explicitly by onclick attribute to avoid picking the voice button)
+  async function saveEntry() {
+    const button = document.querySelector('button[onclick="saveEntry()"]');
+    const originalHtml = button ? button.innerHTML : "Save Entry";
+
+    if (button) {
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      button.disabled = true;
+    }
+
+    try {
+      const text = diaryInput.value;
+      if (!text.trim()) throw new Error("Please write something before saving!");
+
+      const res = await fetch("http://127.0.0.1:5050/add_entry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || "Failed to save entry");
+      }
+
+      const data = await res.json();
+
+      if (button) {
+        button.innerHTML = '<i class="fas fa-check"></i> Saved!';
+      }
+      diaryInput.value = "";
+      updateWordCount();
+      await loadEntries();
+
+    } catch (err) {
+      console.error("Error saving entry:", err);
+      if (button) button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error!';
+    } finally {
+      if (button) {
+        setTimeout(() => {
+          button.innerHTML = originalHtml;
+          button.disabled = false;
+        }, 1500);
+      }
+    }
+  }
+
+  // Expose saveEntry to window if your HTML uses onclick="saveEntry()"
+  window.saveEntry = saveEntry;
+
+  // Load entries
+  async function loadEntries() {
+    try {
+      const res = await fetch("http://127.0.0.1:5050/get_entries");
+      if (!res.ok) throw new Error("Failed to load entries");
+      const entries = await res.json();
+
+      // If it's the container UL (previous markup used <ul id="entries">), keep same behavior:
+      // We'll replace its innerHTML with list items
+      if (!entries || entries.length === 0) {
+        entriesContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-feather-alt"></i>
+            <p>No entries yet. Start writing your first diary entry above!</p>
+          </div>
+        `;
+        // also clear chart
+        if (chartInstance) {
+          chartInstance.destroy();
+          chartInstance = null;
+        }
+        return;
+      }
+
+      // build list (expecting entries to be array of {text, emotion, confidence, timestamp})
+      // If your entriesContainer is a UL, we'll append LI elements
+      entriesContainer.innerHTML = "";
+      entries.forEach((e, idx) => {
+        const li = document.createElement("li");
+        li.style.animationDelay = (idx * 0.1) + "s";
+        const emotion = e.emotion || "neutral";
+        const confidenceText = (typeof e.confidence === "number") ? Math.round(e.confidence * 100) + "%" : "";
+        const timestamp = new Date(e.timestamp).toLocaleString();
+
+        li.innerHTML = `
+          <div class="entry-content">
+            <strong>📅 ${timestamp}</strong><br>
+            <span style="color: #667eea;">💭 ${emotion} ${confidenceText}</span><br>
+            <div style="margin-top: 8px; padding-left: 16px; border-left: 2px solid rgba(102, 126, 234, 0.2);">
+              ${e.text}
+            </div>
+          </div>
+        `;
+        entriesContainer.appendChild(li);
+      });
+
+      // Update chart
+      updateChart(entries);
+
+    } catch (err) {
+      console.error("Error loading entries:", err);
+      entriesContainer.innerHTML = `
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Failed to load entries. Please check your connection.</p>
+        </div>
+      `;
+    }
+  }
+
+  // Update chart
+  function updateChart(entries) {
+    if (!emotionCanvas) return;
+    const ctx = emotionCanvas.getContext("2d");
+    if (chartInstance) chartInstance.destroy();
+
+    if (!entries || entries.length === 0) return;
+
+    const labels = entries.map(e => new Date(e.timestamp).toLocaleDateString());
+    const emotionValues = entries.map(e => {
+      const map = {
+        anger: 1, disgust: 2, fear: 2, sadness: 2,
+        neutral: 3, surprise: 4, joy: 5
+      };
+      return map[(e.emotion || "neutral").toLowerCase()] || 3;
+    });
+
+    chartInstance = new Chart(ctx, {
+      type: "line",
+      data: { labels, datasets: [{ label: "Emotion Trends", data: emotionValues, borderColor: "#667eea", backgroundColor: "rgba(102,126,234,0.1)", borderWidth: 3, fill: true, tension: 0.4, pointRadius: 6 }] },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: true, labels: { color: "#333", font: { size: 14 } } } },
+        scales: {
+          y: {
+            beginAtZero: true, max: 6, ticks: { stepSize: 1, callback: v => ['', 'Very Sad', 'Sad', 'Neutral', 'Happy', 'Very Happy', ''][v] },
+            grid: { color: "rgba(102,126,234,0.1)" }
+          },
+          x: { ticks: { color: "#666" }, grid: { color: "rgba(102,126,234,0.1)" } }
+        }
+      }
+    });
+  }
+
+  // --- Speech Recognition (toggle, append final results only) ---
+  let recognition = null;
+  let isListening = false;
+
+  function supportsSpeech() {
+    return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+  }
+
+  if (!supportsSpeech()) {
+    console.warn("Speech Recognition not supported in this browser.");
+    // do not alert the user to avoid annoyance; console warns
+  } else {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SR();
+    recognition.continuous = true;        // try to keep listening across pauses
+    recognition.interimResults = true;    // we will only append final results (isFinal)
+    // default language; we'll ask user when starting
+    recognition.lang = "en-US";
+
+    // Toggle button handler
+    voiceBtn.addEventListener("click", () => {
+      if (!isListening) {
+        // ask language (keep simple prompt; you can replace with dropdown in UI)
+        let langChoice = prompt("Choose language: type 'en' for English or 'hi' for Hindi", "en");
+        recognition.lang = (langChoice && langChoice.toLowerCase() === "hi") ? "hi-IN" : "en-US";
+
+        try {
+          recognition.start();
+          isListening = true;
+          voiceBtn.innerText = "🛑 Stop Listening";
+        } catch (err) {
+          console.error("Could not start recognition:", err);
+        }
+      } else {
+        try {
+          recognition.stop();
+        } catch (err) {
+          console.error("Error stopping recognition:", err);
+        }
+        isListening = false;
+        voiceBtn.innerText = "🎤 Speak";
+      }
+    });
+
+    // onresult: only append final results (avoid duplicates)
+    recognition.onresult = (event) => {
+      let finalTranscript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (result.isFinal) {
+          finalTranscript += result[0].transcript;
+        }
+      }
+
+      if (finalTranscript) {
+        // append final transcript to textarea (preserve existing text)
+        diaryInput.value += (diaryInput.value ? " " : "") + finalTranscript.trim();
+        updateWordCount();
+      }
+    };
+
+    // If recognition ends unexpectedly, restart if we are still in listening mode
+    recognition.onend = () => {
+      if (isListening) {
+        // small timeout before restart helps avoid immediate failure loops
+        setTimeout(() => {
+          try {
+            recognition.start();
+          } catch (err) {
+            console.error("Failed to restart recognition:", err);
+            isListening = false;
+            voiceBtn.innerText = "🎤 Speak";
+          }
+        }, 200);
+      } else {
+        voiceBtn.innerText = "🎤 Speak";
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      // show brief message if important — avoid too many alerts
+      if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+        alert("Microphone access blocked. Please allow microphone permissions for this site.");
+        isListening = false;
+        voiceBtn.innerText = "🎤 Speak";
+      }
+    };
+  }
+
+  // initial load
+  loadEntries();
+
+  // Ctrl+Enter support for save
+  diaryInput.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "Enter") saveEntry();
+  });
+});
+</script>
+</body>
+</html>
