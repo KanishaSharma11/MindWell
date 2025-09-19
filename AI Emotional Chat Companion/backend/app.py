@@ -20,7 +20,7 @@ model = genai.GenerativeModel("gemini-2.5-pro")
 # ==========================
 # 🔹 Google Search Setup
 # ==========================
-GOOGLE_API_KEY = "Google Search API"
+GOOGLE_API_KEY = "Google API"
 SEARCH_ENGINE_ID = "5419cf93b9c7d4fa8"
 
 def get_helplines(query="mental health suicide prevention helpline India"):
