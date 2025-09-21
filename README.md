@@ -208,5 +208,4 @@ Mental health challenges among youth are increasing due to stress, anxiety, and 
 
 <div align="center">
 Made by: Kanisha Ravindra Sharma 
-MindWell © 2024. Empowering youth mental wellness through technology.
 </div>
