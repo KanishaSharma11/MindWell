@@ -199,7 +199,7 @@ Mental health challenges among youth are increasing due to stress, anxiety, and 
 <div align="center">
 
 ### 🎥 **Video Walkthrough**
-[![Video Demo](https://drive.google.com/file/d/1K7ynLFtjlITf9mgIrpNMITiIAcfzC87r/view?usp=sharing)
+[![Video Demo](https://img.shields.io/badge/📹_Watch_Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](https://drive.google.com/file/d/1K7ynLFtjlITf9mgIrpNMITiIAcfzC87r/view?usp=sharing)
 
 
 </div>
